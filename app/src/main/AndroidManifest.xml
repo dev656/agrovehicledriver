@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -20,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LanguageChoose"></activity>
-        <!-- Remove this to remove Fabric -->
+        <activity android:name=".activity.LanguageChoose" /> <!-- Remove this to remove Fabric -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="54c260049943bced1377b0eb132a9b68687ba073" />
@@ -65,7 +63,7 @@
         </provider>
 
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.DriverDocumentsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -76,119 +74,119 @@
         </activity>
         <activity
             android:name=".activity.BaseAppCompatNoDrawerActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BaseAppCompatActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme.DarkStatusBar"></activity>
+            android:theme="@style/SplashTheme.DarkStatusBar" />
         <activity
             android:name=".activity.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.OtpVerificationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.DriverLicenceTypeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme.DarkStatusBar"></activity>
+            android:theme="@style/LoginTheme.DarkStatusBar" />
         <activity
             android:name=".activity.LegalConsentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme.DarkStatusBar"></activity>
+            android:theme="@style/LoginTheme.DarkStatusBar" />
         <activity
-            android:name=".activity.DriverDocumentsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProfilePhotoUploadActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme.DarkStatusBar"></activity>
+            android:theme="@style/LoginTheme.DarkStatusBar" />
         <activity
             android:name=".activity.HomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DocumentUploadActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme.DarkStatusBar"></activity>
+            android:theme="@style/LoginTheme.DarkStatusBar" />
         <activity
             android:name=".activity.TripDetailsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TripHistoryActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PayStatementsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RiderFeedbackActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProTipsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HelpActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HelpListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DocumentsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme.DarkStatusBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.EditVehicleDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme.DarkStatusBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.SoftwareLicenseActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MapLicenseActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AccessibilityActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TripHelpActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TripSummaryActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RequestConfirmationActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.OnTripActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MobileVerificationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

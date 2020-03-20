@@ -3,13 +3,17 @@ package com.jaats.agrovehicledriver.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.jaats.agrovehicledriver.R;
@@ -26,6 +30,9 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
     private static final String TAG = "DriverDocA";
 
     private static final int REQUEST_DRIVER_LICENCE = 0;
+
+    private static final int REQUEST_DRIVER_JOINING = 8;
+    private static final int REQUEST_DRIVER_PASSBOOK = 7;
     private static final int REQUEST_POLICE_CLEARANCE_CERTIFICATE = 1;
     private static final int REQUEST_FITNESS_CERTIFICATE = 2;
     private static final int REQUEST_VEHICLE_REGISTRATION = 3;
@@ -35,6 +42,15 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
 
     private ImageView ivDriverLicenceNext;
     private ImageView ivDriverLicenceSaved;
+
+    private ImageView ivDriverPassbookNext;
+    private ImageView ivDriverPassbookSaved;
+
+
+    private ImageView ivDriverJoiningNext;
+    private ImageView ivDriverJoiningSaved;
+
+
     private ImageView ivPoliceClearanceCertificateNext;
     private ImageView ivPoliceClearanceCertificateSaved;
     private ImageView ivFitnessCertificateNext;
@@ -49,6 +65,12 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
     private ImageView ivTaxReceiptSaved;
     private View.OnClickListener snackBarRefreshOnClickListener;
     private boolean isDriverLicenceUploaded;
+
+    private boolean isDriverPassbookUploaded;
+    NestedScrollView nestedScrollView;
+
+
+    private boolean isDriverJoiningUploaded;
     private boolean isPoliceClearanceCertificateUploaded;
     private boolean isFitnessCertificateUploaded;
     private boolean isVehicleRegistrationUploaded;
@@ -57,15 +79,45 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
     private boolean isTaxReceiptUploaded;
     private DocumentStatusBean documentStatusBean;
 
+    String driverid;
+
+    ArrayList<String> list = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_documents);
+        Documents();
+
+
+
 
         initViews();
 
         getSupportActionBar().setTitle(R.string.label_documents);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+    }
+
+    private void Documents() {
+
+
+
+        try {
+            driverid=getIntent().getExtras().getString("keyy");
+            list.add(driverid);
+            Toast.makeText(this, driverid+"", Toast.LENGTH_SHORT).show();
+
+        }catch (Exception e)
+        {
+/*
+            Snackbar.make(nestedScrollView,"Please Enter Email Address",Snackbar.LENGTH_SHORT)
+                    .show();
+*/
+
+            Snackbar.make(coordinatorLayout, R.string.message_please_upload_tax_receiptt, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+
+        }
+
     }
 
     @Override
@@ -76,6 +128,20 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
             isDriverLicenceUploaded = true;
             ivDriverLicenceNext.setVisibility(View.GONE);
             ivDriverLicenceSaved.setVisibility(View.VISIBLE);
+        }
+
+
+
+        if (requestCode == REQUEST_DRIVER_PASSBOOK && resultCode == RESULT_OK) {
+            isDriverPassbookUploaded = true;
+            ivDriverPassbookNext.setVisibility(View.GONE);
+            ivDriverPassbookSaved.setVisibility(View.VISIBLE);
+        }
+
+        if (requestCode == REQUEST_DRIVER_JOINING && resultCode == RESULT_OK) {
+            isDriverJoiningUploaded = true;
+            ivDriverJoiningNext.setVisibility(View.GONE);
+            ivDriverJoiningSaved.setVisibility(View.VISIBLE);
         }
 
         if (requestCode == REQUEST_POLICE_CLEARANCE_CERTIFICATE && resultCode == RESULT_OK) {
@@ -151,6 +217,13 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
         ivDriverLicenceNext = (ImageView) findViewById(R.id.iv_driver_docuements_driver_license_next);
         ivDriverLicenceSaved = (ImageView) findViewById(R.id.iv_driver_docuements_driver_license_saved);
 
+        ivDriverPassbookNext = (ImageView) findViewById(R.id.iv_driver_docuements_Bank_Passbook_next);
+        ivDriverPassbookSaved = (ImageView) findViewById(R.id.iv_driver_docuements_Bank_Passbook_Save);
+
+        ivDriverJoiningNext = (ImageView) findViewById(R.id.iv_driver_docuements_Joining_Form_next);
+        ivDriverJoiningSaved = (ImageView) findViewById(R.id.iv_driver_docuements_Joining_FormSave);
+
+
         ivPoliceClearanceCertificateNext = (ImageView) findViewById(R.id.iv_driver_docuements_police_clearance_certificate_next);
         ivPoliceClearanceCertificateSaved = (ImageView) findViewById(R.id.iv_driver_docuements_police_clearance_certificate_saved);
 
@@ -166,11 +239,11 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
         ivCommercialInsuranceNext = (ImageView) findViewById(R.id.iv_driver_docuements_commercial_insurance_next);
         ivCommercialInsuranceSaved = (ImageView) findViewById(R.id.iv_driver_docuements_commercial_insurance_saved);
 
-        ivTaxReceiptNext = (ImageView) findViewById(R.id.iv_driver_docuements_tax_receipt_next);
-        ivTaxReceiptSaved = (ImageView) findViewById(R.id.iv_driver_docuements_tax_receipt_saved);
+
     }
 
     private void fetchDocumentStatus() {
+
 
         HashMap<String, String> urlParams = new HashMap<>();
         urlParams.put("auth_token", Config.getInstance().getAuthToken());
@@ -225,7 +298,19 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
                     ivPoliceClearanceCertificateNext.setVisibility(View.VISIBLE);
                     ivPoliceClearanceCertificateSaved.setVisibility(View.GONE);
                 }
-            } else if (bean.getType() == AppConstants.DOCUMENT_TYPE_FITNESS_CERTIFICATE) {
+            }
+            else if (bean.getType() == AppConstants.DOCUMENT_TYPE_POLICE_CLEARANCE_CERTIFICATE) {
+                if (bean.isUploaded() || (bean.getDocumentStatus() == AppConstants.DOCUMENT_STATUS_PENDING_APPROVAL
+                        && bean.getDocumentStatus() == AppConstants.DOCUMENT_STATUS_APPROVED)) {
+                    isPoliceClearanceCertificateUploaded = true;
+                    ivPoliceClearanceCertificateNext.setVisibility(View.GONE);
+                    ivPoliceClearanceCertificateSaved.setVisibility(View.VISIBLE);
+                } else {
+                    isPoliceClearanceCertificateUploaded = false;
+                    ivPoliceClearanceCertificateNext.setVisibility(View.VISIBLE);
+                    ivPoliceClearanceCertificateSaved.setVisibility(View.GONE);
+                }
+        }else if (bean.getType() == AppConstants.DOCUMENT_TYPE_FITNESS_CERTIFICATE) {
                 if (bean.isUploaded() || (bean.getDocumentStatus() == AppConstants.DOCUMENT_STATUS_PENDING_APPROVAL
                         && bean.getDocumentStatus() == AppConstants.DOCUMENT_STATUS_APPROVED)) {
                     isFitnessCertificateUploaded = true;
@@ -288,83 +373,258 @@ public class DriverDocumentsActivity extends BaseAppCompatNoDrawerActivity {
     }
 
     public void onDriverDocumentsDriverLicenseClick(View view) {
+
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         //mVibrator.vibrate(25);
 
-        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
-                        .putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_LICENCE),
-                REQUEST_DRIVER_LICENCE);
+Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+in.putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_LICENCE);
+in.putExtra("key",""+1);
+startActivity(in);
     }
 
-    public void onDriverDocumentsPoliceClearanceCertificateClick(View view) {
+
+
+    public void onDriverDocumentsDriverBankPassbookClick(View view) {
+
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         //mVibrator.vibrate(25);
+
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_PASSBOOK);
+        in.putExtra("key",""+2);
+        startActivity(in);
+/*
+        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
+                .putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_PASSBOOK), REQUEST_DRIVER_PASSBOOK);*/
+    }
+
+
+
+    public void onDriverDocumentsDriverJoiningFormClick(View view) {
+
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        //mVibrator.vibrate(25);
+
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_JOINING);
+        in.putExtra("key",""+3);
+        startActivity(in);
+/*
+        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
+                .putExtra("type", AppConstants.DOCUMENT_TYPE_DRIVER_JOINING), REQUEST_DRIVER_JOINING);*/
+    }
+
+
+
+    public void onDriverDocumentsWorkPermitClick(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        //mVibrator.vibrate(25);
+
+
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_POLICE_CLEARANCE_CERTIFICATE);
+        in.putExtra("key",""+4);
+        startActivity(in);
+/*
 
         startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
                         .putExtra("type", AppConstants.DOCUMENT_TYPE_POLICE_CLEARANCE_CERTIFICATE),
                 REQUEST_POLICE_CLEARANCE_CERTIFICATE);
+*/
+    }
+
+    public void onDriverDocumentsDrivingLicenceBackClick(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        //mVibrator.vibrate(25);
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_POLICE_CLEARANCE_CERTIFICATE);
+        in.putExtra("key",""+8);
+        startActivity(in);
+
+       /* startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
+                        .putExtra("type", AppConstants.DOCUMENT_TYPE_FITNESS_CERTIFICATE),
+                REQUEST_FITNESS_CERTIFICATE);*/
+    }
+
+    public void onDriverDocumentsVehicleRegistrationCertificateClick(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        //mVibrator.vibrate(25);
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_REGISTRATION);
+        in.putExtra("key",""+5);
+        startActivity(in);
+/*
+        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
+                        .putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_REGISTRATION),
+                REQUEST_VEHICLE_REGISTRATION);*/
+    }
+
+    public void onDriverDocumentsInsuranceCertificateClick(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+        //mVibrator.vibrate(25);
+
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_PERMIT);
+        in.putExtra("key",""+6);
+        startActivity(in);
+/*
+        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
+                        .putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_PERMIT),
+                REQUEST_VEHICLE_PERMIT);*/
     }
 
     public void onDriverDocumentsFitnessCertificateClick(View view) {
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         //mVibrator.vibrate(25);
 
-        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
-                        .putExtra("type", AppConstants.DOCUMENT_TYPE_FITNESS_CERTIFICATE),
-                REQUEST_FITNESS_CERTIFICATE);
-    }
-
-    public void onDriverDocumentsVehicleRegistrationClick(View view) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
-
-        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
-                        .putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_REGISTRATION),
-                REQUEST_VEHICLE_REGISTRATION);
-    }
-
-    public void onDriverDocumentsVehiclePermitClick(View view) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
-
-        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
-                        .putExtra("type", AppConstants.DOCUMENT_TYPE_VEHICLE_PERMIT),
-                REQUEST_VEHICLE_PERMIT);
-    }
-
-    public void onDriverDocumentsCommercialInsuranceClick(View view) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
-
+        Intent in=new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class);
+        in.putExtra("type", AppConstants.DOCUMENT_TYPE_COMMERCIAL_INSURANCE);
+        in.putExtra("key",""+7);
+        startActivity(in);
+/*
         startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
                         .putExtra("type", AppConstants.DOCUMENT_TYPE_COMMERCIAL_INSURANCE),
-                REQUEST_COMMERCIAL_INSURANCE);
+                REQUEST_COMMERCIAL_INSURANCE);*/
     }
 
-    public void onDriverDocumentsTaxReceiptClick(View view) {
-        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
-
-        startActivityForResult(new Intent(DriverDocumentsActivity.this, DocumentUploadActivity.class)
-                        .putExtra("type", AppConstants.DOCUMENT_TYPE_TAX_RECEIPT),
-                REQUEST_TAX_RECEIPT);
-    }
 
     public void onDriverDocumentsSubmitClick(View view) {
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+    //    Toast.makeText(this, getString(R.string.nkpl)+"", Toast.LENGTH_SHORT).show();
+
+
+
+
+   //     coolect();
+
         //mVibrator.vibrate(25);
 
-        if (collectDriverDocuments()) {
+        /*Snackbar.make(coordinatorLayout, R.string.message_upload_all_the_required_document, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.btn_refresh, snackBarRefreshOnClickListener).show();
+
+
+        startActivity(new Intent(DriverDocumentsActivity.this, ProfilePhotoUploadActivity.class));
+        finish();
+
+        */
+/*
+
+        if (coolect()==false) {
+
+
+
             startActivity(new Intent(DriverDocumentsActivity.this, ProfilePhotoUploadActivity.class));
             finish();
+
+
+
+
         } else {
+
+*//*
             Snackbar.make(coordinatorLayout, R.string.message_upload_all_the_required_document, Snackbar.LENGTH_SHORT)
                     .setAction(R.string.btn_refresh, snackBarRefreshOnClickListener).show();
+*//*
 
-        }
+        }*/
     }
 
+     private  boolean coolect()
+    {
+
+
+        ArrayList<String> list = new ArrayList<String>();
+
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        list.add("5");
+        list.add("6");
+        list.add("7");
+        list.add("8");
+
+        String a = null ;
+        for (int i=0;i<list.size();i++)
+        {
+            a=    list.get(i);
+
+            if (a=="1")
+
+            {
+
+                Snackbar.make(coordinatorLayout, R.string.message_please_upload_driver_licence_front, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+            else if (list.get(i)=="2")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_driver_Passbook, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+
+            else if (list.get(i)=="3")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_driver_Joining, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+            else if (list.get(i)=="4")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_police_clearance_certificate, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (list.get(i)=="5")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_vehicle_registration, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (list.get(i)=="6")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_vehicle_permit, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (list.get(i)=="7")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_commercial_insurance, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }
+            /*
+            else if (list.get(i)=="8")
+            {
+                Snackbar.make(coordinatorLayout, R.string.label_fitness_certificate, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+                //   Toast.makeText(this, "please upload document", Toast.LENGTH_SHORT).show();
+
+            }*/
+
+        }
+
+        return true;
+
+    }
+
+
+
     private boolean collectDriverDocuments() {
+
 
         if (!isDriverLicenceUploaded) {
             Snackbar.make(coordinatorLayout, R.string.message_please_upload_driver_licence, Snackbar.LENGTH_LONG)

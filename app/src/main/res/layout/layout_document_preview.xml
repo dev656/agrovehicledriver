@@ -50,22 +50,22 @@
             <com.jaats.agrovehicledriver.widgets.CustomButton
                 android:id="@+id/btn_document_upload_retake"
                 android:layout_width="110dp"
-                android:layout_height="40dp"
+                android:layout_height="33dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/btn_click_white_rectangle_with_dark_semicircle_edge"
                 android:onClick="onDocumentUploadRetakeClick"
-                android:text="@string/btn_retake"/>
+                android:text="@string/btn_retake" />
 
             <com.jaats.agrovehicledriver.widgets.CustomButton
                 android:id="@+id/btn_document_upload_save"
                 android:layout_width="110dp"
-                android:layout_height="40dp"
+                android:layout_height="27dp"
                 android:layout_gravity="center"
                 android:background="@drawable/btn_click_black_rectangle_with_semicircle_edge"
                 android:onClick="onDocumentUploadSaveClick"
                 android:text="@string/btn_save"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

@@ -45,7 +45,7 @@
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
-                android:text="@string/label_driver_license"/>
+                android:text="@string/label_driver_license" />
 
             <ImageView
                 android:id="@+id/iv_driver_docuements_driver_license_next"
@@ -60,9 +60,53 @@
         <View
             style="@style/DriverDocumentItemSeperator"/>
 
+
         <LinearLayout
             style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsPoliceClearanceCertificateClick">
+            android:onClick="onDriverDocumentsDriverBankPassbookClick">
+
+            <com.jaats.agrovehicledriver.widgets.CustomTextView
+                style="@style/DriverDocumentItemLabel"
+                android:text="@string/label_driver_Passbook" />
+
+            <ImageView
+                android:id="@+id/iv_driver_docuements_Bank_Passbook_next"
+                style="@style/DriverDocumentItemArrow"/>
+
+            <ImageView
+                android:id="@+id/iv_driver_docuements_Bank_Passbook_Save"
+                style="@style/DriverDocumentItemTick"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/DriverDocumentItemSeperator"/>
+
+        <LinearLayout
+            style="@style/DriverDocumentItemParent"
+            android:onClick="onDriverDocumentsDriverJoiningFormClick">
+
+            <com.jaats.agrovehicledriver.widgets.CustomTextView
+                style="@style/DriverDocumentItemLabel"
+                android:text="@string/label_driver_Joining" />
+
+            <ImageView
+                android:id="@+id/iv_driver_docuements_Joining_Form_next"
+                style="@style/DriverDocumentItemArrow"/>
+
+            <ImageView
+                android:id="@+id/iv_driver_docuements_Joining_FormSave"
+                style="@style/DriverDocumentItemTick"/>
+
+        </LinearLayout>
+
+
+        <View
+            style="@style/DriverDocumentItemSeperator"/>
+
+        <LinearLayout
+            style="@style/DriverDocumentItemParent"
+            android:onClick="onDriverDocumentsWorkPermitClick">
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
@@ -83,7 +127,7 @@
 
         <LinearLayout
             style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsFitnessCertificateClick">
+            android:onClick="onDriverDocumentsDrivingLicenceBackClick">
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
@@ -104,7 +148,7 @@
 
         <LinearLayout
             style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsVehicleRegistrationClick">
+            android:onClick="onDriverDocumentsVehicleRegistrationCertificateClick">
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
@@ -125,7 +169,7 @@
 
         <LinearLayout
             style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsVehiclePermitClick">
+            android:onClick="onDriverDocumentsInsuranceCertificateClick">
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
@@ -146,7 +190,7 @@
 
         <LinearLayout
             style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsCommercialInsuranceClick">
+            android:onClick="onDriverDocumentsFitnessCertificateClick">
 
             <com.jaats.agrovehicledriver.widgets.CustomTextView
                 style="@style/DriverDocumentItemLabel"
@@ -165,23 +209,6 @@
         <View
             style="@style/DriverDocumentItemSeperator"/>
 
-        <LinearLayout
-            style="@style/DriverDocumentItemParent"
-            android:onClick="onDriverDocumentsTaxReceiptClick">
-
-            <com.jaats.agrovehicledriver.widgets.CustomTextView
-                style="@style/DriverDocumentItemLabel"
-                android:text="@string/label_tax_receipt"/>
-
-            <ImageView
-                android:id="@+id/iv_driver_docuements_tax_receipt_next"
-                style="@style/DriverDocumentItemArrow" />
-
-            <ImageView
-                android:id="@+id/iv_driver_docuements_tax_receipt_saved"
-                style="@style/DriverDocumentItemTick"/>
-
-        </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
@@ -192,14 +219,14 @@
         <com.jaats.agrovehicledriver.widgets.CustomButton
             android:id="@+id/btn_driver_licence_type_continue"
             android:layout_width="200dp"
-            android:layout_height="45dp"
+            android:layout_height="31dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/btn_click_black_rectangle_with_semicircle_edge"
             android:onClick="onDriverDocumentsSubmitClick"
             android:text="@string/btn_continue"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

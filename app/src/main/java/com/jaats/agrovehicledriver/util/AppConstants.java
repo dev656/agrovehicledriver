@@ -23,6 +23,9 @@ public class AppConstants {
     public static final int DRIVER_TYPE_NON_DRIVING_PARTNER = 1;
 
     public static final int DOCUMENT_TYPE_DRIVER_LICENCE = 1;
+
+    public static final int DOCUMENT_TYPE_DRIVER_PASSBOOK = 13;
+    public static final int DOCUMENT_TYPE_DRIVER_JOINING = 14;
     public static final int DOCUMENT_TYPE_POLICE_CLEARANCE_CERTIFICATE = 2;
     public static final int DOCUMENT_TYPE_FITNESS_CERTIFICATE = 3;
     public static final int DOCUMENT_TYPE_VEHICLE_REGISTRATION = 4;

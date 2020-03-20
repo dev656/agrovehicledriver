@@ -17,6 +17,8 @@
 
         <include layout="@layout/layout_registration_password" />
 
+        <include layout="@layout/layout_registration_confirm_password" />
+
         <include layout="@layout/layout_registration_name" />
 
         <include layout="@layout/layout_registration_location" />

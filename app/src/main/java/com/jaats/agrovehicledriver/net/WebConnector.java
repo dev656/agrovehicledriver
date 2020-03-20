@@ -97,6 +97,7 @@ public class WebConnector {
         InputStream inputStream = null;
         HttpURLConnection urlConnection = null;
         try {
+
             System.out.println(">>>>>>>>>url : " + url);
                 /* forming th java.net.URL object */
             urlConnection = (HttpURLConnection) new URL(url.toString()).openConnection();
@@ -105,8 +106,7 @@ public class WebConnector {
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Accept", "application/json");
             if (Config.getInstance().getAuthToken() != null && !Config.getInstance().getAuthToken().equalsIgnoreCase(""))
-//                urlConnection.setRequestProperty("Authorization", /*"Bearer " +*/ Config.getInstance().getAuthToken());
-                urlConnection.setRequestProperty("Auth", /*"Bearer " +*/ Config.getInstance().getAuthToken());
+//                urlConnection.setRequestProperty("Authorization", /*"Bearer " +*/ Config.getInstance().getAuthToken()); urlConnection.setRequestProperty("Auth", /*"Bearer " +*/ Config.getInstance().getAuthToken());
             urlConnection.setConnectTimeout(60000);
             urlConnection.setReadTimeout(60000);
             urlConnection.setDoOutput(true);
@@ -471,9 +471,7 @@ public class WebConnector {
     }
 
     public String connectToGET_service() {
-
         System.out.println(">>>>>>>>>url : " + url);
-
         StringBuilder stringBuilder = new StringBuilder();
         String boundary = "-------------" + System.currentTimeMillis();
 
@@ -492,6 +490,7 @@ public class WebConnector {
                 .addHeader("Accept", "application/json")
 //                .addHeader("Connection", "Keep-Alive")
                 .addHeader("Content-type", "application/json");
+
         if (Config.getInstance().getAuthToken() != null && !Config.getInstance().getAuthToken().equalsIgnoreCase(""))
 //            rBuilder.addHeader("Authorization", /*"Bearer " +*/ Config.getInstance().getAuthToken());
             rBuilder.addHeader("Auth", /*"Bearer " +*/ Config.getInstance().getAuthToken());
@@ -673,10 +672,14 @@ public class WebConnector {
     }
 
     private void createServiceUrl() {
+
         if (null == params) {
             return;
+
         }
+
         final Iterator<Entry<String, String>> it = params.entrySet().iterator();
+
         boolean isParam = false;
         while (it.hasNext()) {
             final Entry<String, String> mapEnt = it.next();

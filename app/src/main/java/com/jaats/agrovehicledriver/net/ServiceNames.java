@@ -29,7 +29,7 @@ public class ServiceNames {
 
     public static final String POLY_POINTS = "https://maps.googleapis.com/maps/api/directions/json?";
 /**/
-    public static final String REGISTRATION = API + "/registration?";
+    public static final String REGISTRATION = "https://nkploggy.com/api/provider/register";//API + "/registration?";
 /**/
     public static final String AUTH_EMAIL = API + "/login?";
     public static final String FORGOT_PASSWORD = API + "/forgot_password?";

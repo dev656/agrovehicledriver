@@ -110,6 +110,7 @@ public class DataManager {
 
             @Override
             public void dataDownloadFailed() {
+
                 listener.onLoadFailed(AppConstants.WEB_ERROR_MSG);
             }
         });
@@ -776,11 +777,17 @@ public class DataManager {
                     listener.onLoadFailed(AppConstants.WEB_ERROR_MSG);
                 else {
                     if (authBean.getStatus().equalsIgnoreCase("Success")) {
+
                         listener.onLoadCompleted(authBean);
+
                     } else if (authBean.getStatus().equalsIgnoreCase("Error")) {
+
                         listener.onLoadFailed(authBean.getErrorMsg());
+
                     } else {
+
                         listener.onLoadFailed(AppConstants.WEB_ERROR_MSG);
+
                     }
                 }
             }
@@ -821,6 +828,7 @@ public class DataManager {
     }
 
     public static void performRegistration(JSONObject postData, final RegistrationListener listener) {
+
 
         RegistrationTask registrationTask = new RegistrationTask(postData);
         registrationTask.setRegistrationTaskListener(new RegistrationTask.RegistrationTaskListener() {

@@ -2,9 +2,12 @@ package com.jaats.agrovehicledriver.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -14,10 +17,17 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.jaats.agrovehicledriver.R;
 import com.jaats.agrovehicledriver.app.App;
 import com.jaats.agrovehicledriver.config.Config;
@@ -26,18 +36,34 @@ import com.jaats.agrovehicledriver.model.AuthBean;
 import com.jaats.agrovehicledriver.net.DataManager;
 import com.jaats.agrovehicledriver.util.AppConstants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends BaseAppCompatNoDrawerActivity {
 
     private EditText etxtEmail;
     private EditText etxtPassword;
     private String email;
     private String password;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+
+        if (SharedPrefManager.getInstans(this).isLogin()) {
+            finish();/*
+            startActivity(new Intent(this, HOME_ACTIVITY.class));*/
+            Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+            startActivity(intent);
+            return;
+        }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -88,6 +114,9 @@ public class LoginActivity extends BaseAppCompatNoDrawerActivity {
     }
 
     private void initViews() {
+
+
+
 
         etxtEmail = (EditText) findViewById(R.id.etxt_login_email);
         etxtPassword = (EditText) findViewById(R.id.etxt_login_password);
@@ -147,7 +176,96 @@ public class LoginActivity extends BaseAppCompatNoDrawerActivity {
         return true;
     }
 
-    private void performLogin() {
+
+    public void performLogin() {
+        swipeView.setRefreshing(true);
+        final String Mobileholder =  etxtEmail.getText().toString().trim();
+        final String passwordHolder =etxtPassword.getText().toString().trim();
+
+        RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+        String Url="https://nkploggy.com/api/provider/oauth/token";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String ServerResponse) {
+                        try {
+
+                            JSONObject jsonObject=new JSONObject(ServerResponse);
+                            JSONObject jsonObject1=jsonObject.getJSONObject("result");
+
+                            String id= jsonObject1.getString("id");
+
+                            String name= jsonObject1.getString("first_name");
+
+                            String ln =jsonObject1.getString("last_name");
+
+
+                            SharedPrefManager.getInstans(getApplicationContext()).userLogin(
+                                 id,name,ln);
+
+                            Toast.makeText(LoginActivity.this, "Login Successfully ", Toast.LENGTH_SHORT).show();
+
+
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                            //Toast.makeText(LoginActivity.this,id+name+ln+"", Toast.LENGTH_SHORT).show();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+/*
+
+*/
+
+
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        // Hiding the progress dialog after all task complete.
+
+
+                        // Showing error message if something goes wrong.
+                        Toast.makeText(LoginActivity.this, "Retry", Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(LoginActivity.this, volleyError.toString(), Toast.LENGTH_LONG).show();
+                    }
+
+
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+
+                // Adding All values to Params.
+
+
+                params.put("email",Mobileholder);
+                params.put("password",passwordHolder);
+                return params;
+            }
+
+        };
+
+        // Creating RequestQueue.
+
+
+        // Adding the StringRequest object into requestQueue.
+        queue.add(stringRequest);
+
+
+    }
+
+    /*private void performLogin() {
         swipeView.setRefreshing(true);
 
         JSONObject postData = getLoginJSObj();
@@ -172,7 +290,7 @@ public class LoginActivity extends BaseAppCompatNoDrawerActivity {
                 Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_INDEFINITE)
                         .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
 
-                   /* To Be Removed....*/
+                   *//* To Be Removed....*//*
                 if (App.getInstance().isDemo()) {
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
@@ -180,7 +298,7 @@ public class LoginActivity extends BaseAppCompatNoDrawerActivity {
             }
         });
 
-    }
+    }*/
 
     private JSONObject getLoginJSObj() {
         JSONObject postData = new JSONObject();

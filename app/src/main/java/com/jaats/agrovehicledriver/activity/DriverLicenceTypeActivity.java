@@ -48,7 +48,6 @@ public class DriverLicenceTypeActivity extends BaseAppCompatNoDrawerActivity {
     }
 
     private void initViews() {
-
         ivTickDriverCumOwner = (ImageView) findViewById(R.id.iv_driver_licence_type_driver_cum_owner);
         ivTickNonDrivingPartner = (ImageView) findViewById(R.id.iv_driver_licence_type_non_driving_partner);
         frameDriverCumOwner = (FrameLayout) findViewById(R.id.frame_driver_licence_type_driver_cum_owner);
@@ -94,10 +93,15 @@ public class DriverLicenceTypeActivity extends BaseAppCompatNoDrawerActivity {
     }
 
     public void onDriverLicenceTypeSubmitClick(View view) {
+
+
+
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         //mVibrator.vibrate(25);
+        startActivity(new Intent(DriverLicenceTypeActivity.this,
+                LegalConsentActivity.class));
 
-        performDriverTypeRegistration();
+           performDriverTypeRegistration();
     }
 
     public void performDriverTypeRegistration() {

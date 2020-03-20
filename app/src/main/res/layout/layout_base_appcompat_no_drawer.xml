@@ -34,6 +34,21 @@
                 android:layout_gravity="top"
                 android:orientation="vertical">
 
+                <FrameLayout
+                    android:id="@+id/lyt_progress_base"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:visibility="visible">
+
+                    <ProgressBar
+                        android:id="@+id/progress_base_appcompat_no_drawer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:indeterminate="true"
+                        android:visibility="visible" />
+                </FrameLayout>
             </FrameLayout>
 
             <LinearLayout
@@ -63,22 +78,6 @@
                     android:textColor="@color/carbon"
                     android:visibility="visible"/>
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/lyt_progress_base"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:visibility="visible">
-
-                <ProgressBar
-                    android:id="@+id/progress_base_appcompat_no_drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:visibility="visible"/>
-            </FrameLayout>
 
         </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>

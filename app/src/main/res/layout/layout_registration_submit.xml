@@ -67,7 +67,7 @@
             android:background="@drawable/btn_click_black_rectangle_with_semicircle_edge"
             android:onClick="onRegistrationSubmitClick"
             android:text="@string/btn_continue"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <com.jaats.agrovehicledriver.widgets.CustomTextView
             android:layout_width="match_parent"

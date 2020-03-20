@@ -22,8 +22,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,20 +45,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import com.jaats.agrovehicledriver.R;
 import com.jaats.agrovehicledriver.app.App;
 import com.jaats.agrovehicledriver.listeners.BasicListener;
 import com.jaats.agrovehicledriver.listeners.PhoneRegistrationListener;
-import com.jaats.agrovehicledriver.listeners.RegistrationListener;
 import com.jaats.agrovehicledriver.model.AuthBean;
 import com.jaats.agrovehicledriver.model.BasicBean;
 import com.jaats.agrovehicledriver.model.CountryBean;
@@ -59,6 +57,15 @@ import com.jaats.agrovehicledriver.model.RegistrationBean;
 import com.jaats.agrovehicledriver.net.DataManager;
 import com.jaats.agrovehicledriver.util.AppConstants;
 import com.jaats.agrovehicledriver.widgets.OTPEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
 
@@ -70,7 +77,11 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
     private EditText etxtPhone;
     private EditText etxtEmail;
     private EditText etxtPassword;
+    private EditText etxtConfrimPassword;
+
     private EditText etxtLocation;
+
+    String verification_code;
 
     private Spinner spinnerCountryCodes;
     private ArrayAdapter<String> adapterCountryCodes;
@@ -168,6 +179,8 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
         etxtPhone = (EditText) findViewById(R.id.etxt_registration_phone);
         etxtEmail = (EditText) findViewById(R.id.etxt_registration_email);
         etxtPassword = (EditText) findViewById(R.id.etxt_registration_password);
+        etxtConfrimPassword = (EditText) findViewById(R.id.etxt_registration_confrim_password);
+
         etxtLocation = (EditText) findViewById(R.id.etxt_registration_location);
 
 
@@ -190,12 +203,15 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
         etxtPhone.setTypeface(typeface);
         etxtEmail.setTypeface(typeface);
         etxtPassword.setTypeface(typeface);
+
+        etxtConfrimPassword.setTypeface(typeface);
         etxtLocation.setTypeface(typeface);
         etxtPassword.setTransformationMethod(new PasswordTransformationMethod());
 
         viewFlipper.setDisplayedChild(0);
 
         mAuth = FirebaseAuth.getInstance();
+
         setVerificationLayoutVisibility(false);
 
         Glide.with(getApplicationContext())
@@ -596,16 +612,45 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
 
     public void onRegistrationMobileNumberSubmitClick(View view) {
 
+        //code by dev
+       final String code = "+91" ;//editTextCountryCode.getText().toString().trim();
+
+        final String number= etxtPhone.getText().toString();
+        if (number.isEmpty() || number.length() < 10) {
+            etxtPhone.setError("Valid number is required");
+
+            etxtPhone.requestFocus();
+
+            return;
+        }
+
+        final String phoneNumber = code + number;
+
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+
+
+                phoneNumber,60, TimeUnit.SECONDS,this,mCallbacks
+
+        );
+
+
+
+        //end of code
+
+
+
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         //mVibrator.vibrate(25);
 
-//        viewFlipper.setDisplayedChild(0);
+        //mVibrator.vibrate(25);
 
-        /*if (collectMobileNumber()) {
-//            performPhoneRegistration();
+      viewFlipper.setDisplayedChild(0);
+
+        if (collectMobileNumber()) {
+           performPhoneRegistration();
             performMobileAvailabilityCheck(registrationBean.getPhone());
-        }*/
+        }
 
         if (isVerificationEnabled) {
             otpCode = "" + etxtOne.getText().toString() + etxtTwo.getText().toString()
@@ -627,11 +672,16 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
             if (collectMobileNumber()) {
 //            performPhoneRegistration();
                 performMobileAvailabilityCheck(registrationBean.getPhone());
+               /* viewFlipper.setInAnimation(slideLeftIn);
+                viewFlipper.setOutAnimation(slideLeftOut);
+                viewFlipper.showNext();*/
             }
         }
     }
 
+
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
         swipeView.setRefreshing(true);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -652,8 +702,6 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
                             viewFlipper.showNext();
                             getSupportActionBar().show();
                             swipeView.setPadding(0, (int) mActionBarHeight, 0, 0);
-
-
                         } else {
                             swipeView.setRefreshing(false);
                             // Sign in failed, display a message and update the UI
@@ -825,15 +873,82 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
 
     public void onRegistrationPasswordSubmitClick(View view) {
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
+
+        mVibrator.vibrate(25);
+
         if (collectPassword()) {
             viewFlipper.setInAnimation(slideLeftIn);
             viewFlipper.setOutAnimation(slideLeftOut);
             viewFlipper.showNext();
+
+           /* if (App.isNetworkAvailable()) {
+                performRegistration();
+            }*/} else {
+            /*
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+*/
+
         }
+
+
 
     }
 
+    public void onRegistration_confirm_PasswordSubmitClick(View view) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        mVibrator.vibrate(25);
+
+        if (collectconfirmPassword()) {
+            viewFlipper.setInAnimation(slideLeftIn);
+            viewFlipper.setOutAnimation(slideLeftOut);
+            viewFlipper.showNext();
+
+           /* if (App.isNetworkAvailable()) {
+                performRegistration();
+            }*/} else {
+            //Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+
+        }
+
+
+
+    }
+    private boolean collectconfirmPassword() {
+
+
+
+
+        registrationBean.setConfirmpassword(etxtConfrimPassword.getText().toString());
+
+
+
+
+        if (registrationBean.getConfirmpassword() == null || registrationBean.getConfirmpassword().equals("")) {
+
+            Snackbar.make(coordinatorLayout, R.string.Confirm_Password_is_requried, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+            return false;
+        }
+
+        return true;
+
+
+
+/*
+        if (registrationBean.getPassword() == null || registrationBean.getPassword().equals("")) {
+            Snackbar.make(coordinatorLayout, R.string.message_password_is_required, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+            return false;
+        } else if (registrationBean.getPassword().length() < 8) {
+            Snackbar.make(coordinatorLayout, R.string.message_password_minimum_character, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+            return false;
+        }
+
+        return true;*/
+    }
     private boolean collectPassword() {
 
         registrationBean.setPassword(etxtPassword.getText().toString());
@@ -903,26 +1018,101 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
     }
 
     public void onRegistrationSubmitClick(View view) {
+
+
         view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-        //mVibrator.vibrate(25);
+        mVibrator.vibrate(25);
+
+        final String name,phone,city;
 
         if (App.isNetworkAvailable()) {
-            performRegistration();
+           performRegistration();
+            //Toast.makeText(this, "yes Available", Toast.LENGTH_SHORT).show();
         } else {
             Snackbar.make(coordinatorLayout, AppConstants.NO_NETWORK_AVAILABLE, Snackbar.LENGTH_LONG)
                     .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
         }
 
+
+//code by dev
+    //    startActivity(new Intent(RegistrationActivity.this, DriverLicenceTypeActivity.class));
+
     }
 
+
     private void performRegistration() {
+        String HttpUrl = "https://nkploggy.com/api/provider/register";
+
+        final String phoneNumber=etxtName.getText().toString();
+        final String NameHolder = etxtName.getText().toString().trim();
+        final String LNameHolder = etxtLocation.getText().toString().trim();
+
+        final String email = etxtEmail.getText().toString().trim();
+        final String PasswordHolder = etxtPassword.getText().toString().trim();
+        final String CpasswordHolder = etxtConfrimPassword.getText().toString().trim();
+
+
+        RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpUrl,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String ServerResponse) {
+
+                        Toast.makeText(RegistrationActivity.this, "Registration is successfull", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(RegistrationActivity.this, DriverLicenceTypeActivity.class));
+                        finish();
+
+
+
+                    }
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Toast.makeText(this, VolleyError, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, volleyError.toString(), Toast.LENGTH_LONG).show();                        // Hiding the progress dialog after all task complete.
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                // Creating Map String Params.
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("first_name", NameHolder);
+                params.put("last_name", LNameHolder);
+
+                params.put("email", email);
+                params.put("mobile", phoneNumber);
+
+                params.put("password", PasswordHolder);
+                params.put("password_confirmation", CpasswordHolder);
+                return params;
+            }
+
+
+
+        };
+
+
+
+        // Adding the StringRequest object into requestQueue.
+        queue.add(stringRequest);
+
+
+
+
+
+
+    }
+
+  /*  private void performRegistration() {
 
         swipeView.setRefreshing(true);
-
         JSONObject postData = getRegistrationJSObj();
-
 //        ArrayList<String> fileList = getImageFileList();
-
         DataManager.performRegistration(postData, new RegistrationListener() {
             @Override
             public void onLoadCompleted(AuthBean authBean) {
@@ -940,15 +1130,16 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
                         .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
 
 
-                /* To Be Removed....*/
+
                 if (App.getInstance().isDemo()) {
                     startActivity(new Intent(RegistrationActivity.this, DriverLicenceTypeActivity.class));
                     finish();
                 }
+
             }
         });
 
-    }
+    }*/
 
    /* private ArrayList<String> getImageFileList() {
         ArrayList<String> fileList = new ArrayList<>();
@@ -985,7 +1176,7 @@ public class RegistrationActivity extends BaseAppCompatNoDrawerActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //            onBackPressed();
+            onBackPressed();
 
             onHomeClick();
             return true;

@@ -44,6 +44,7 @@ public class RegistrationInvoker extends BaseInvoker {
         if (wsResponseString.equals("")) {
             /*registerBean=new RegisterBean();
             registerBean.setWebError(true);*/
+
             return authBean = null;
         } else {
             authBean = new AuthBean();

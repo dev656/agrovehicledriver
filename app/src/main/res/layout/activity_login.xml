@@ -69,14 +69,14 @@
         <com.jaats.agrovehicledriver.widgets.CustomButton
             android:id="@+id/btn_login_submit"
             android:layout_width="130dp"
-            android:layout_height="40dp"
+            android:layout_height="34dp"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"
             android:background="@drawable/btn_click_app_rectangle_with_semicircle_edge"
             android:onClick="onLoginSubmitClick"
             android:text="@string/btn_log_in"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_login_forgot_password"

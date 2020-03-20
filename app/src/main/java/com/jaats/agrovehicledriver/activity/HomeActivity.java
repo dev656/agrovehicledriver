@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,6 +90,7 @@ public class HomeActivity extends BaseAppCompatActivity implements HomeFragment.
             if (Config.getInstance().isOnline()) {
                 switchOnline.setChecked(true);
             } else {
+
                 switchOnline.setChecked(false);
             }
         }
@@ -111,12 +113,14 @@ public class HomeActivity extends BaseAppCompatActivity implements HomeFragment.
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 //mVibrator.vibrate(25);
+               // Toast.makeText(HomeActivity.this, "Online", Toast.LENGTH_SHORT).show();
 
                 setDriverTitle();
                 if (App.isNetworkAvailable()) {
                     performDriverStatusChange();
                 } else {
                     switchOnline.setChecked(!switchOnline.isChecked());
+
                     Snackbar.make(coordinatorLayout, AppConstants.NO_NETWORK_AVAILABLE, Snackbar.LENGTH_LONG)
                             .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
                 }
@@ -379,12 +383,14 @@ public class HomeActivity extends BaseAppCompatActivity implements HomeFragment.
                 swipeView.setRefreshing(false);
                 setDriverTitle();
                 if (switchOnline.isChecked()) {
-
                     Snackbar.make(coordinatorLayout, R.string.message_you_are_online, Snackbar.LENGTH_LONG)
                             .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
                 } else {
                     Snackbar.make(coordinatorLayout, R.string.message_you_are_offline_now, Snackbar.LENGTH_LONG)
                             .setAction(R.string.btn_dismiss, snackBarDismissOnClickListener).show();
+
+
+ //                   Toast.makeText(HomeActivity.this, "Offline", Toast.LENGTH_SHORT).show();
                 }
                 ((HomeFragment) adapterPager.getItem(0)).setDriverStatus(switchOnline.isChecked());
             }
@@ -412,20 +418,34 @@ public class HomeActivity extends BaseAppCompatActivity implements HomeFragment.
         try {
             postData.put("driver_status", switchOnline.isChecked());
         } catch (JSONException e) {
+
             e.printStackTrace();
+
         }
 
         return postData;
     }
 
     private void setDriverTitle() {
+
         if (switchOnline != null) {
             if (switchOnline.isChecked()) {
                 Config.getInstance().setOnline(true);
                 getSupportActionBar().setTitle(R.string.label_online);
+                double dLatitude;
+                double dLongitude;
+                  dLatitude = Double.parseDouble(Config.getInstance().getCurrentLatitude());
+                dLongitude = Double.parseDouble(Config.getInstance().getCurrentLongitude());
+
+
+
+                Toast.makeText(HomeActivity.this, dLatitude+"online", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, dLongitude+"online", Toast.LENGTH_SHORT).show();
             } else {
                 Config.getInstance().setOnline(false);
                 getSupportActionBar().setTitle(R.string.label_offline);
+
+                Toast.makeText(HomeActivity.this, "OffLine", Toast.LENGTH_SHORT).show();
             }
         }
     }

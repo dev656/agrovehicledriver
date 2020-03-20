@@ -30,6 +30,7 @@ import com.jaats.agrovehicledriver.activity.HelpListActivity;
 import com.jaats.agrovehicledriver.activity.ProfileActivity;
 import com.jaats.agrovehicledriver.activity.SettingsActivity;
 import com.jaats.agrovehicledriver.activity.SplashActivity;
+import com.jaats.agrovehicledriver.activity.WelcomeActivity;
 import com.jaats.agrovehicledriver.app.App;
 import com.jaats.agrovehicledriver.config.Config;
 import com.jaats.agrovehicledriver.listeners.ProfileListener;
@@ -124,13 +125,22 @@ public class AccountsFragment extends BaseFragment {
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 //mVibrator.vibrate(25);
-                if (getActivity() != null) {
+
+                // App.logout();
+
+
+
+                Intent i = new Intent(getActivity(), WelcomeActivity.class);
+                startActivity(i);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+
+        /*        if (getActivity() != null) {
                     App.logout();
                     startActivity(new Intent(getActivity(), SplashActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     getActivity().finish();
                 }
-
+*/
             }
         });
 

@@ -96,6 +96,7 @@ public class HomeFragment extends BaseFragment implements
             .mapToolbarEnabled(true);
 
     private GoogleMap mMap;
+
     private static SupportMapFragment myMapFragment = SupportMapFragment.newInstance(options);
     private FragmentManager myFragmentManager;
 

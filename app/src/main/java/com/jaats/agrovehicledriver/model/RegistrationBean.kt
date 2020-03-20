@@ -12,6 +12,8 @@ class RegistrationBean : BaseBean() {
     var phone: String= ""
     var email: String= ""
     var password: String= ""
+
+    var confirmpassword: String= ""
     var location: String= ""
 }
 

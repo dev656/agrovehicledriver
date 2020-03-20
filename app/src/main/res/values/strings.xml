@@ -6,6 +6,11 @@
     <string name="api_key">AIzaSyDU2i2j6Kk3l4q_kVI-8x5zuJYIjkZXMsE</string>
     <string name="browser_api_key">AIzaSyB8JoPWZ9nJbmmWCXFnNt6HoRfgqdnCTvE</string>
 
+    <string name="nkpl">https://nkploggy.com/api/</string>
+
+
+
+
     <string name="action_menu">Menu</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_search">Search</string>
@@ -62,7 +67,7 @@
     <string name="btn_start_trip">Start Hire</string>
     <string name="btn_submit">Submit</string>
     <string name="btn_take_a_photo">Take A Photo</string>
-    <string name="btn_take_photo">Take Photo</string>
+    <string name="btn_take_photo">Select Photo</string>
     <string name="btn_tap_to_confirm">Tap to Confirm</string>
     <string name="btn_time">Time</string>
     <string name="btn_trip_history">Hire History</string>
@@ -74,12 +79,15 @@
     <string name="hint_country">Country</string>
     <string name="hint_email">name@example.com</string>
     <string name="hint_email_address"><i>Email Address</i></string>
-    <string name="hint_enter_your_city">Enter your City</string>
+    <string name="hint_enter_your_city">Enter your last name here</string>
     <string name="hint_enter_your_name_here">Enter your name here</string>
     <string name="hint_enter_your_number">Enter Your Number</string>
+
+    <string name="hint_enter_confirm_your_password">Enter your Confrim Password</string>
     <string name="hint_enter_your_password">Enter your Password</string>
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
+
     <string name="hint_mobile">Mobile</string>
     <string name="hint_name">Name</string>
     <string name="hint_new_password">New Password</string>
@@ -113,11 +121,13 @@
     <string name="label_cash_collected">Cash Collected</string>
     <string name="label_change_password">Change Password</string>
     <string name="label_collect_cash">Collect Cash</string>
-    <string name="label_commercial_insurance">Commercial Insurance</string>
+    <string name="label_commercial_insurance">Fitness Certificate</string>
     <string name="label_consent_agreement">I understand that the information provide by me may be used by Agro Vehicle, or its affiliates, authbridge research services private limited or its affiliates (being a third party agency appointed by Agro Vehicle), or any third party appointed by Agro Vehicle from time to time, to verify and validate the information I have provided as necessary background Checks. I understand that the third party agency appointed by Agro Vehicle may obtain Information it deems appropriate from various sources including, but not limited to, current and past employers, Criminal conviction records, educational records, professional and personal references and other verifying sources / authorities.</string>
     <string name="label_contacts">Contacts</string>
     <string name="label_continue_to_earn_more_money">Continue to earn more money \nin your spare time</string>
     <string name="label_create_your_account_password">Create your account Password</string>
+
+    <string name="label_confrim_your_account_password">Confirm your account Password</string>
     <string name="label_current_rating">Current Rating</string>
     <string name="label_daily_earnings">Daily Earnings</string>
     <string name="label_did_you_know">Did you know that \nthousands of \nDrivers are using Agro Vehicle</string>
@@ -128,7 +138,11 @@
     <string name="label_driver_cum_owner_option">Choose this option if you own the vehicle and plan to drive yourself too</string>
     <string name="label_driver_documents">Driver Documents</string>
     <string name="label_driver_licence_with_badge_number">Driver Licence with Badge Number</string>
-    <string name="label_driver_license">Driver License</string>
+    <string name="label_driver_license">Driving Licence Front</string>
+
+
+    <string name="label_driver_Passbook">Driving  Bank Passbook</string>
+    <string name="label_driver_Joining">Driving Joining Form</string>
     <string name="label_drop_off">- \tDrop Off</string>
     <string name="label_duration">Duration</string>
     <string name="label_earn_more">Earn More</string>
@@ -140,7 +154,7 @@
     <string name="label_error">Error</string>
     <string name="label_estimated_payout">Estimated Payout</string>
     <string name="label_fare">Fare</string>
-    <string name="label_fitness_certificate">Fitness Certificate</string>
+    <string name="label_fitness_certificate">Driving Licence Back</string>
     <string name="label_fri">Fri</string>
     <string name="label_help">Help</string>
     <string name="label_hours_online"> Hrs Online</string>
@@ -190,7 +204,7 @@
     <string name="label_please_select_a_date_from_future">Please select a date from future.</string>
     <string name="label_please_take_a_clear_photo_of_your_face">Please take a clear photo of your face for \nyour account</string>
     <string name="label_please_upload_your_documents">Please Upload your personal Documents and Vehicle Documents</string>
-    <string name="label_police_clearance_certificate">Police Clearance Certificate</string>
+    <string name="label_police_clearance_certificate">Work Permit</string>
     <string name="label_pro_Tips">Pro Tips</string>
     <string name="label_profile">Profile</string>
     <string name="label_profile_photo">Profile Photo</string>
@@ -210,7 +224,7 @@
     <string name="label_share_app">Share App</string>
     <string name="label_software_licences">Software Licences</string>
     <string name="label_sun">Sun</string>
-    <string name="label_take_a_photo_of_your_document">Take a Photo of your \nDocument</string>
+    <string name="label_take_a_photo_of_your_document">Upload a Photo of your \nDocument</string>
     <string name="label_tax">Tax</string>
     <string name="label_tax_receipt">Tax Receipt</string>
     <string name="label_tax_return">Tax Return</string>
@@ -230,8 +244,8 @@
     <string name="label_update_your_working_days_and_time">Update your Working Days and Time</string>
     <string name="label_upload_photograph">Upload Photograph</string>
     <string name="label_use_flash_for_requests">Use flash for Requests</string>
-    <string name="label_vehicle_permit">Vehicle Permit</string>
-    <string name="label_vehicle_registration">Vehicle Registration</string>
+    <string name="label_vehicle_permit">Insurance Certificate</string>
+    <string name="label_vehicle_registration">Vehicle Registration Certificate</string>
     <string name="label_view_appointments">View Appointments</string>
     <string name="label_view_notes">View Notes</string>
     <string name="label_volume">Volume</string>
@@ -241,7 +255,7 @@
     <string name="label_welcome">Welcome!</string>
     <string name="label_what_is_your_email_address">What\'s your email Address?</string>
     <string name="label_what_is_your_name">Whats\'s your name?</string>
-    <string name="label_where_are_you_from">Where are you from?</string>
+    <string name="label_where_are_you_from">Whats\'s your last name?</string>
     <string name="label_with_la_taxi">With Agro Vehicle</string>
     <string name="label_you_rated">You Rated</string>
     <string name="label_your_todays_total_rides">Your Today\'s Total Service</string>
@@ -321,8 +335,9 @@
     <string name="message_loading_countries">Please wait while we load the available Countries.</string>
     <string name="message_loading_districts">Please wait while we load the available Cities/Districts</string>
     <string name="message_loading_states">Please wait while we load the available States.</string>
-    <string name="message_location_is_required">Location is required</string>
+    <string name="message_location_is_required">Last Name is required</string>
     <string name="message_name_is_required">Name is required</string>
+    <string name="Confirm_Password_is_requried">Confirm Password is requried</string>
     <string name="message_need_to_accept_terms_and_condition"><![CDATA[You need to accept the Terms & Conditions]]></string>
     <string name="message_new_schedule_can_be_added_to_a_future_date">New Schedules can only be added to a future date.</string>
     <string name="message_no_available_city">There are no available cities for the selected state</string>
@@ -350,9 +365,14 @@
     <string name="message_please_select_state">Please select a State.</string>
     <string name="message_please_upload_commercial_insurance">Please Upload the Commercial Insurance!</string>
     <string name="message_please_upload_driver_licence">Please Upload the Driver Licence!</string>
+
+
+    <string name="message_please_upload_driver_licence_front">Please Upload the Driver Licence Front !</string>
     <string name="message_please_upload_fitness_certificate">Please Upload the Fitness Certificate!</string>
     <string name="message_please_upload_police_clearance_certificate">Please Upload the Police Clearance Certificate!</string>
     <string name="message_please_upload_tax_receipt">Please Upload the Tax Receipt!</string>
+
+    <string name="message_please_upload_tax_receiptt">Please Upload the Document!</string>
     <string name="message_please_upload_vehicle_permit">Please Upload the Vehicle Permit!</string>
     <string name="message_please_upload_vehicle_registration">Please Upload the Vehicle Registration!</string>
     <string name="message_postal_code_is_required">Postal Code is Required</string>
